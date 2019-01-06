@@ -149,7 +149,7 @@ fi
 ## apple
 if ! [ -z "$APPLECACHE_IP" ]; then
 	echo "Enabling cache for Apple"
-	cp /etc/bind/cache/apple/template.db.apple /etc/bind/cache/windows/db.apple
+	cp /etc/bind/cache/apple/template.db.apple /etc/bind/cache/apple/db.apple
 	sed -i -e "s%{{ applecache_ip }}%$APPLECACHE_IP%g" /etc/bind/cache/apple/db.apple
 	sed -i -e "s%#ENABLE_APPLE#%%g" /etc/bind/cache.conf
 fi
