@@ -57,8 +57,23 @@ if [ "$USE_GENERIC_CACHE" = "true" ]; then
 		if [ -z "$UPLAYCACHE_IP" ] && ! [ "$DISABLE_UPLAY" = "true" ]; then
 			UPLAYCACHE_IP=$LANCACHE_IP
 		fi
+		if [ -z "$ROCKSTARCACHE_IP" ] && ! [ "$DISABLE_ROCKSTAR" = "true" ]; then
+			ROCKSTARCACHE_IP=$LANCACHE_IP
+		fi
 		if [ -z "$WINDOWSCACHE_IP" ] && ! [ "$DISABLE_WINDOWS" = "true" ]; then
 			WINDOWSCACHE_IP=$LANCACHE_IP
+		fi
+		if [ -z "$APPLECACHE_IP" ] && ! [ "$DISABLE_APPLE" = "true" ]; then
+			APPLECACHE_IP=$LANCACHE_IP
+		fi
+		if [ -z "$SONYCACHE_IP" ] && ! [ "$DISABLE_SONY" = "true" ]; then
+			SONYCACHE_IP=$LANCACHE_IP
+		fi
+		if [ -z "$XBOXCACHE_IP" ] && ! [ "$DISABLE_XBOX" = "true" ]; then
+			XBOXCACHE_IP=$LANCACHE_IP
+		fi
+		if [ -z "$NINTENDOCACHE_IP" ] && ! [ "$DISABLE_NINTENDO" = "true" ]; then
+			NINTENDOCACHE_IP=$LANCACHE_IP
 		fi
 	fi
 fi
@@ -115,12 +130,52 @@ if ! [ -z "$UPLAYCACHE_IP" ]; then
 	sed -i -e "s%#ENABLE_UPLAY#%%g" /etc/bind/cache.conf
 fi
 
+## rockstar
+if ! [ -z "$ROCKSTARCACHE_IP" ]; then
+	echo "Enabling cache for Rockstar"
+	cp /etc/bind/cache/rockstar/template.db.rockstar /etc/bind/cache/rockstar/db.rockstar
+	sed -i -e "s%{{ rockstarcache_ip }}%$ROCKSTARCACHE_IP%g" /etc/bind/cache/rockstar/db.rockstar
+	sed -i -e "s%#ENABLE_ROCKSTAR#%%g" /etc/bind/cache.conf
+fi
+
 ## windows
 if ! [ -z "$WINDOWSCACHE_IP" ]; then
 	echo "Enabling cache for Windows"
 	cp /etc/bind/cache/windows/template.db.windows /etc/bind/cache/windows/db.windows
 	sed -i -e "s%{{ windowscache_ip }}%$WINDOWSCACHE_IP%g" /etc/bind/cache/windows/db.windows
 	sed -i -e "s%#ENABLE_WINDOWS#%%g" /etc/bind/cache.conf
+fi
+
+## apple
+if ! [ -z "$APPLECACHE_IP" ]; then
+	echo "Enabling cache for Apple"
+	cp /etc/bind/cache/apple/template.db.apple /etc/bind/cache/windows/db.apple
+	sed -i -e "s%{{ applecache_ip }}%$APPLECACHE_IP%g" /etc/bind/cache/apple/db.apple
+	sed -i -e "s%#ENABLE_APPLE#%%g" /etc/bind/cache.conf
+fi
+
+## sony
+if ! [ -z "$SONYCACHE_IP" ]; then
+	echo "Enabling cache for Sony"
+	cp /etc/bind/cache/sony/template.db.sony /etc/bind/cache/sony/db.sony
+	sed -i -e "s%{{ sonycache_ip }}%$SONYCACHE_IP%g" /etc/bind/cache/sony/db.sony
+	sed -i -e "s%#ENABLE_SONY#%%g" /etc/bind/cache.conf
+fi
+
+## xbox
+if ! [ -z "$XBOXCACHE_IP" ]; then
+	echo "Enabling cache for Xbox Live"
+	cp /etc/bind/cache/xbox/template.db.xbox /etc/bind/cache/xbox/db.xbox
+	sed -i -e "s%{{ windowscache_ip }}%$XBOXCACHE_IP%g" /etc/bind/cache/xbox/db.xbox
+	sed -i -e "s%#ENABLE_XBOX#%%g" /etc/bind/cache.conf
+fi
+
+## nintendo
+if ! [ -z "$NINTENDOCACHE_IP" ]; then
+	echo "Enabling cache for Nintendo"
+	cp /etc/bind/cache/nintendo/template.db.nintendo /etc/bind/cache/nintendo/db.nintendo
+	sed -i -e "s%{{ windowscache_ip }}%$NINTENDOCACHE_IP%g" /etc/bind/cache/nintendo/db.nintendo
+	sed -i -e "s%#ENABLE_NINTENDO#%%g" /etc/bind/cache.conf
 fi
 
 ## custom upstream forwarder
